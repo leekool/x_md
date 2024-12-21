@@ -50,8 +50,13 @@ const App = () => {
   return (
     <>
       <div>
-        <input type="text" value={idValue} onChange={handleIdChange} />
+        <input 
+          type="text"
+          value={idValue} 
+          placeholder="Enter ID or URL"
+          onChange={handleIdChange} />
         <button
+          disabled={!isValid}
           onClick={() => click(idValue)}
         >
           {isValid ? "valid" : "invalid"}
