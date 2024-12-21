@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { getTweet } from "./utils/apiUtils";
+import { Md } from "./md";
 
 // const useDebounce = <T,>(value: T, delay: number): T => {
 //   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -50,9 +51,9 @@ const App = () => {
   return (
     <>
       <div>
-        <input 
+        <input
           type="text"
-          value={idValue} 
+          value={idValue}
           placeholder="Enter ID or URL"
           onChange={handleIdChange} />
         <button
@@ -61,6 +62,7 @@ const App = () => {
         >
           {isValid ? "valid" : "invalid"}
         </button>
+        <Md />
       </div>
     </>
   )
