@@ -1,8 +1,9 @@
 import { Tweet } from './interfaces';
 import { useEffect, useState } from 'react';
-import { codeBlockPlugin, codeMirrorPlugin, diffSourcePlugin, frontmatterPlugin, headingsPlugin, imagePlugin, KitchenSinkToolbar, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, MDXEditor, quotePlugin, thematicBreakPlugin, toolbarPlugin } from '@mdxeditor/editor';
+import { BoldItalicUnderlineToggles, codeBlockPlugin, codeMirrorPlugin, CodeToggle, CreateLink, diffSourcePlugin, DiffSourceToggleWrapper, headingsPlugin, imagePlugin, InsertCodeBlock, InsertFrontmatter, InsertTable, InsertThematicBreak, linkDialogPlugin, linkPlugin, listsPlugin, ListsToggle, markdownShortcutPlugin, MDXEditor, quotePlugin, Separator, StrikeThroughSupSubToggles, thematicBreakPlugin, toolbarPlugin, UndoRedo } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
 import { EditorView } from '@codemirror/view';
+import { frontmatterPlugin } from './frontmatter';
 
 interface MdProps {
   tweet: Tweet;
@@ -60,8 +61,30 @@ export const Md = (props: MdProps) => {
         className="dark-theme dark-editor"
         markdown={value}
         plugins={[
-          toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar /> }),
           frontmatterPlugin(),
+          toolbarPlugin({
+            toolbarContents: () => (
+              <>
+                <DiffSourceToggleWrapper>
+                  <UndoRedo />
+                  <Separator />
+                  <BoldItalicUnderlineToggles />
+                  <CodeToggle />
+                  <Separator />
+                  <StrikeThroughSupSubToggles />
+                  <Separator />
+                  <ListsToggle />
+                  <Separator />
+                  <CreateLink />
+                  <InsertTable />
+                  <InsertCodeBlock />
+                  <InsertThematicBreak />
+                  <Separator />
+                  <InsertFrontmatter />
+                </DiffSourceToggleWrapper>
+              </>
+            )
+          }),
           listsPlugin(),
           quotePlugin(),
           headingsPlugin(),
@@ -69,10 +92,9 @@ export const Md = (props: MdProps) => {
           linkDialogPlugin(),
           imagePlugin(),
           thematicBreakPlugin(),
-          frontmatterPlugin(),
           codeBlockPlugin({ defaultCodeBlockLanguage: "md" }),
           diffSourcePlugin({
-            diffMarkdown: '',
+            diffMarkdown: value,
             viewMode: 'rich-text',
             codeMirrorExtensions: [theme],
 
