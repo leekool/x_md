@@ -25,14 +25,15 @@ const debounce = (fn: Function, delay: number) => {
 const App = () => {
   const [idValue, setIdValue] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [tweet, setTweet] = useState(null);
 
   useEffect(() => {
     console.log("idValue: ", idValue);
   }, [idValue]);
 
   const click = async (id: string) => {
-    const tweet = await getTweet(id);
-    console.log(tweet);
+    const t = await getTweet(id);
+    if (t) setTweet(t);
   }
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +47,6 @@ const App = () => {
       setIsValid(!!match);
     }, 500)
   ).current;
-
 
   return (
     <>
@@ -62,7 +62,7 @@ const App = () => {
         >
           {isValid ? "valid" : "invalid"}
         </button>
-        <Md />
+        { tweet && <Md tweet={tweet} /> }
       </div>
     </>
   )
