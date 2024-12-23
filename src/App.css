@@ -356,6 +356,13 @@ input:focus {
   outline: none;
 }
 
+button:disabled {
+  color: var(--text-color-alt);
+  border-color: var(--text-color-alt);
+  cursor: default;
+  /* pointer-events: none; */
+}
+
 input {
   width: calc(round(down, 100%, 1ch));
 }
@@ -384,7 +391,7 @@ button:hover {
   background: var(--background-color-alt);
 }
 
-button:active {
+button:active:not(:disabled) {
   transform: translate(2px, 2px);
 }
 
