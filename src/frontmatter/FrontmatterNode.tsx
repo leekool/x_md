@@ -48,11 +48,16 @@ export class FrontmatterNode extends DecoratorNode<JSX.Element> {
 
   // View
   createDOM(_config: EditorConfig): HTMLDivElement {
-    return document.createElement('div')
+    const div = document.createElement('div');
+    div.textContent = this.__yaml;
+    return div;
   }
 
-  updateDOM(): false {
-    return false
+  updateDOM(_prevNode: this, _dom: HTMLElement, _config: EditorConfig): boolean {
+    console.log("updateDOM: ", _prevNode, this);
+    if (_prevNode.__yaml !== this.__yaml) return true;
+
+    return false;
   }
 
   getYaml(): string {

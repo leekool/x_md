@@ -58,7 +58,8 @@ export const Md = (props: MdProps) => {
   return value ? (
     <div className="md-container">
       <MDXEditor
-        className="dark-theme dark-editor"
+        className="dark-theme dark-editor md-editor"
+        contentEditableClassName="md-content-editable"
         markdown={value}
         plugins={[
           frontmatterPlugin(),

@@ -1,13 +1,13 @@
 import { Action, Cell, withLatestFrom } from '@mdxeditor/gurx'
 import {
   $getRoot,
-  $getSelection,
-  $isRangeSelection,
-  $isTextNode,
-  COMMAND_PRIORITY_CRITICAL,
-  ElementNode,
-  KEY_DOWN_COMMAND,
-  LexicalEditor
+  // $getSelection,
+  // $isRangeSelection,
+  // $isTextNode,
+  // COMMAND_PRIORITY_CRITICAL,
+  // ElementNode,
+  // KEY_DOWN_COMMAND,
+  // LexicalEditor
 } from 'lexical'
 import { frontmatterFromMarkdown, frontmatterToMarkdown } from 'mdast-util-frontmatter'
 import { frontmatter } from 'micromark-extension-frontmatter'
@@ -87,56 +87,56 @@ export const frontmatterPlugin = realmPlugin({
       [addImportVisitor$]: MdastFrontmatterVisitor,
       [addExportVisitor$]: LexicalFrontmatterVisitor,
       [addToMarkdownExtension$]: frontmatterToMarkdown('yaml'),
-      [createRootEditorSubscription$]: (editor: LexicalEditor) => {
-        return editor.registerCommand<KeyboardEvent>(
-          KEY_DOWN_COMMAND,
-          (event) => {
-            let shouldPrevent = false
-
-            editor.read(() => {
-              const selection = $getSelection()
-
-              if ($isRangeSelection(selection)) {
-                if (selection.isCollapsed() && selection.anchor.offset === 0 && selection.focus.offset === 0 && event.key === 'Backspace') {
-                  let node = selection.getNodes()[0] as ElementNode | null
-                  if ($isTextNode(node)) {
-                    node = node.getParent()
-                  }
-                  const prevSibling = node?.getPreviousSibling()
-                  if ($isFrontmatterNode(prevSibling)) {
-                    shouldPrevent = true
-                    event.preventDefault()
-                  }
-                } else {
-                  const firstNode = selection.getNodes()[0]
-                  if ($isFrontmatterNode(firstNode)) {
-                    const yaml = firstNode.getYaml()
-                    setTimeout(() => {
-                      editor.update(
-                        () => {
-                          const firstItem = $getRoot().getFirstChild()
-                          if (!$isFrontmatterNode(firstItem)) {
-                            $getRoot().splice(0, 0, [$createFrontmatterNode(yaml)])
-                          }
-                        },
-                        { discrete: true }
-                      )
-                    })
-                  }
-                }
-              }
-            })
-
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            if (shouldPrevent) {
-              return true
-            }
-
-            return false
-          },
-          COMMAND_PRIORITY_CRITICAL
-        )
-      }
+    //   [createRootEditorSubscription$]: (editor: LexicalEditor) => {
+    //     return editor.registerCommand<KeyboardEvent>(KEY_DOWN_COMMAND, (event) => {
+    //       console.log("KEY_DOWN_COMMAND", event);
+    //       let shouldPrevent = false;
+    //
+    //       editor.read(() => {
+    //         const selection = $getSelection();
+    //         console.log("selection: ", selection);
+    //
+    //         if ($isRangeSelection(selection)) {
+    //           if (selection.isCollapsed() && selection.anchor.offset === 0 && selection.focus.offset === 0 && event.key === 'Backspace') {
+    //             let node = selection.getNodes()[0] as ElementNode | null
+    //             if ($isTextNode(node)) {
+    //               node = node.getParent()
+    //             }
+    //             const prevSibling = node?.getPreviousSibling()
+    //             if ($isFrontmatterNode(prevSibling)) {
+    //               shouldPrevent = true
+    //               event.preventDefault()
+    //             }
+    //           } else {
+    //             const firstNode = selection.getNodes()[0]
+    //             if ($isFrontmatterNode(firstNode)) {
+    //               const yaml = firstNode.getYaml()
+    //               setTimeout(() => {
+    //                 editor.update(
+    //                   () => {
+    //                     const firstItem = $getRoot().getFirstChild()
+    //                     if (!$isFrontmatterNode(firstItem)) {
+    //                       $getRoot().splice(0, 0, [$createFrontmatterNode(yaml)])
+    //                     }
+    //                   },
+    //                   { discrete: true }
+    //                 )
+    //               })
+    //             }
+    //           }
+    //         }
+    //       })
+    //
+    //       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    //       if (shouldPrevent) {
+    //         return true
+    //       }
+    //
+    //       return false
+    //     },
+    //       COMMAND_PRIORITY_CRITICAL
+    //     )
+    //   }
     })
   }
 })

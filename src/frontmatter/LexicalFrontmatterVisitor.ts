@@ -5,6 +5,7 @@ import { LexicalExportVisitor } from '@mdxeditor/editor'
 export const LexicalFrontmatterVisitor: LexicalExportVisitor<FrontmatterNode, Mdast.YAML> = {
   testLexicalNode: $isFrontmatterNode,
   visitLexicalNode: ({ actions, lexicalNode }) => {
+    console.log("visitLexicalNode: ", lexicalNode);
     actions.addAndStepInto('yaml', { value: lexicalNode.getYaml() })
   }
 }

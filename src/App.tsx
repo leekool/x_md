@@ -55,25 +55,35 @@ const App = () => {
   ).current;
 
   const idFromUrl = (input: string) => {
-      const match = input.match(/\b\d{17,20}\b/);
-      if (!!match) return match[0];
+    const match = input.match(/\b\d{17,20}\b/);
+    if (!!match) return match[0];
   }
 
   return (
     <>
-      <div>
-        <input
-          type="text"
-          value={inputValue}
-          placeholder="Enter ID or URL"
-          onChange={handleIdChange} />
-        <button
-          disabled={!isValid}
-          onClick={() => click(idValue)}
-        >
-          {isValid ? "valid" : "invalid"}
-        </button>
-        { tweet && <Md tweet={tweet} /> }
+      <div className="main">
+        {
+          !tweet &&
+          <div className="input-container">
+            <input
+              className="id-input"
+              type="text"
+              value={inputValue}
+              placeholder="Enter ID or URL"
+              onChange={handleIdChange} />
+            <button
+              className="submit-button"
+              disabled={!isValid}
+              onClick={() => click(idValue)}
+            >
+              {isValid ? "valid" : "invalid"}
+            </button>
+          </div>
+        }
+        {
+          tweet &&
+          <Md tweet={tweet} />
+        }
       </div>
     </>
   )
