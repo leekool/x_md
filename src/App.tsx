@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { getTweet } from "./utils/apiUtils";
-import { Md } from "./md";
+import { Md } from "./Md";
 
 // const useDebounce = <T,>(value: T, delay: number): T => {
 //   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -14,22 +14,23 @@ import { Md } from "./md";
 //   return debouncedValue;
 // }
 
-const debounce = (fn: Function, delay: number) => {
-  let timer: number;
-  return (...args: any[]) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delay);
-  };
-};
+// const debounce = (fn: Function, delay: number) => {
+//   let timer: number;
+//   return (...args: any[]) => {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => fn(...args), delay);
+//   };
+// };
 
 const App = () => {
+  const [inputValue, setInputValue] = useState("");
   const [idValue, setIdValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [tweet, setTweet] = useState(null);
 
   useEffect(() => {
-    console.log("idValue: ", idValue);
-  }, [idValue]);
+    console.log("idValue: ", inputValue);
+  }, [inputValue]);
 
   const click = async (id: string) => {
     const t = await getTweet(id);
@@ -37,23 +38,33 @@ const App = () => {
   }
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIdValue(e.target.value);
+    setInputValue(e.target.value);
     validateInput(e.target.value);
   }
 
   const validateInput = useRef(
-    debounce((input: string) => {
-      const match = input.match(/\b\d{17,20}\b/);
-      setIsValid(!!match);
-    }, 500)
+    // debounce((input: string) => {
+    //   const match = input.match(/\b\d{17,20}\b/);
+    //   setIsValid(!!match);
+    // }, 500)
+    (input: string) => {
+      const id = idFromUrl(input);
+      setIsValid(!!id);
+      setIdValue(id ?? "");
+    }
   ).current;
+
+  const idFromUrl = (input: string) => {
+      const match = input.match(/\b\d{17,20}\b/);
+      if (!!match) return match[0];
+  }
 
   return (
     <>
       <div>
         <input
           type="text"
-          value={idValue}
+          value={inputValue}
           placeholder="Enter ID or URL"
           onChange={handleIdChange} />
         <button
