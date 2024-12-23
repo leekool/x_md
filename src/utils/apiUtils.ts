@@ -1,6 +1,7 @@
+
 export const getTweet = async (id: string) => {
-    // const url = `https://api.imre.al/x/${id}`;
-    const url = `http://localhost:3000/api/x/${id}`;
+    const baseUrl = import.meta.env.VITE_API_URL;
+    const url = `${baseUrl}/x/${id}`;
 
     const response = await fetch(url);
 
