@@ -54,7 +54,7 @@ export class FrontmatterNode extends DecoratorNode<JSX.Element> {
   }
 
   updateDOM(_prevNode: this, _dom: HTMLElement, _config: EditorConfig): boolean {
-    console.log("updateDOM: ", _prevNode, this);
+    // console.log("updateDOM: ", _prevNode, this);
     if (_prevNode.__yaml !== this.__yaml) return true;
 
     return false;

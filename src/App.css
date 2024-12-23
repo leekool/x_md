@@ -151,6 +151,18 @@ sub {
   font-size: .75rem;
 }
 
+blockquote {
+  font-style: italic;
+  font-weight: 500;
+  /* color: var(--prose-quotes); */
+  border-left: 0.25rem solid #e5e7eb;
+  /* padding-left: 1rem; */
+  padding-left: 1em;
+  /* margin: 1.5rem 0; */
+  margin: 0 0 1.6em 0;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
 /* table { */
 /*   position: relative; */
 /*   top: calc(var(--line-height) / 2); */

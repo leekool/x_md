@@ -1,4 +1,3 @@
-
 export const getTweet = async (id: string) => {
     const baseUrl = import.meta.env.VITE_API_URL;
     const url = `${baseUrl}/x/${id}`;

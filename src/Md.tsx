@@ -30,19 +30,31 @@ const theme = EditorView.theme({
   }
 }, { dark: true });
 
-const tweetToMd = (t: Tweet) => {
-  console.log(t);
-  let md = `---\n`
-    + `author: "${t.userName}"\n`
+const tweetToMd = (t: Tweet): string => {
+  /* todo: re-implement when frontmatter plugin done */
+  // let md = `---\n`
+  //   + `author: "${t.userName}"\n`
+  //   + `handle: "${t.displayName}"\n`
+  //   + `date: "${t.createDate}"\n`
+  //   + `---\n`
+  //   + t.text;
+
+  let md = `author: "${t.userName}"\n`
     + `handle: "${t.displayName}"\n`
-    + `date: "${t.createDate}"\n`
-    + `---\n`
+    + `date: "${t.createDate}"\n&NewLine;` // fixes quote block line break issue
     + t.text;
 
   if (t.media?.length) {
     t.media.forEach((m) => {
-      md += `\n<img alt="${m.url}" src="data:image/${m.file_type};base64, ${m.base64}" />`;
+      md += `\n<img alt="${m.url}" src="data:image/${m.fileType};base64, ${m.base64}" />`;
     })
+  }
+
+  if (t.quote) {
+    let quoteMd = tweetToMd(t.quote);
+    quoteMd = "\n> " + quoteMd.replace(/(\n)+/g, `\n> `);
+
+    md += quoteMd;
   }
 
   return md;
@@ -59,7 +71,7 @@ export const Md = (props: MdProps) => {
     <div className="md-container">
       <MDXEditor
         className="dark-theme dark-editor md-editor"
-        contentEditableClassName="md-content-editable"
+        contentEditableClassName="prose"
         markdown={value}
         plugins={[
           frontmatterPlugin(),
