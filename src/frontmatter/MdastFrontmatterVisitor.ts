@@ -1,6 +1,6 @@
 import * as Mdast from 'mdast'
-import { MdastImportVisitor } from '../../importMarkdownToLexical'
 import { $createFrontmatterNode } from './FrontmatterNode'
+import { MdastImportVisitor } from '@mdxeditor/editor'
 
 export const MdastFrontmatterVisitor: MdastImportVisitor<Mdast.YAML> = {
   testNode: 'yaml',

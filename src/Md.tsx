@@ -1,6 +1,6 @@
 import { Tweet } from './interfaces';
 import { useEffect, useState } from 'react';
-import { BoldItalicUnderlineToggles, codeBlockPlugin, codeMirrorPlugin, CodeToggle, CreateLink, diffSourcePlugin, DiffSourceToggleWrapper, headingsPlugin, imagePlugin, InsertCodeBlock, InsertFrontmatter, InsertTable, InsertThematicBreak, linkDialogPlugin, linkPlugin, listsPlugin, ListsToggle, markdownShortcutPlugin, MDXEditor, quotePlugin, Separator, StrikeThroughSupSubToggles, thematicBreakPlugin, toolbarPlugin, UndoRedo } from '@mdxeditor/editor';
+import { BoldItalicUnderlineToggles, CodeToggle, CreateLink, diffSourcePlugin, DiffSourceToggleWrapper, headingsPlugin, imagePlugin, InsertTable, InsertThematicBreak, linkDialogPlugin, linkPlugin, listsPlugin, ListsToggle, markdownShortcutPlugin, MDXEditor, quotePlugin, Separator, StrikeThroughSupSubToggles, tablePlugin, thematicBreakPlugin, toolbarPlugin, UndoRedo } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
 import { EditorView } from '@codemirror/view';
 import { frontmatterPlugin } from './frontmatter';
@@ -77,10 +77,9 @@ export const Md = (props: MdProps) => {
                   <Separator />
                   <CreateLink />
                   <InsertTable />
-                  <InsertCodeBlock />
+                  {/* <InsertCodeBlock /> */}
                   <InsertThematicBreak />
                   <Separator />
-                  <InsertFrontmatter />
                 </DiffSourceToggleWrapper>
               </>
             )
@@ -91,15 +90,16 @@ export const Md = (props: MdProps) => {
           linkPlugin(),
           linkDialogPlugin(),
           imagePlugin(),
+          tablePlugin(),
           thematicBreakPlugin(),
-          codeBlockPlugin({ defaultCodeBlockLanguage: "md" }),
+          // codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
+          // codeMirrorPlugin({ codeBlockLanguages: { txt: "text" } }),
           diffSourcePlugin({
             diffMarkdown: value,
             viewMode: 'rich-text',
             codeMirrorExtensions: [theme],
 
           }),
-          codeMirrorPlugin(),
           markdownShortcutPlugin(),
         ]}
       />
