@@ -84,20 +84,20 @@ export const Md = (props: MdProps) => {
             toolbarContents: () => (
               <>
                 <DiffSourceToggleWrapper>
-                  <UndoRedo />
-                  <Separator />
-                  <BoldItalicUnderlineToggles />
-                  <CodeToggle />
-                  <Separator />
-                  <StrikeThroughSupSubToggles />
-                  <Separator />
-                  <ListsToggle />
-                  <Separator />
-                  <CreateLink />
-                  <InsertTable />
+                  <div className="left">
+                    <UndoRedo />
+                    <Separator />
+                    <BoldItalicUnderlineToggles />
+                    <CodeToggle />
+                    <Separator />
+                    <StrikeThroughSupSubToggles />
+                    <Separator />
+                    <InsertTable />
+                  </div>
+                  {/* <ListsToggle /> */}
+                  {/* <CreateLink /> */}
                   {/* <InsertCodeBlock /> */}
-                  <InsertThematicBreak />
-                  <Separator />
+                  {/* <InsertThematicBreak /> */}
                 </DiffSourceToggleWrapper>
               </>
             )

@@ -3,25 +3,6 @@ import "./App.css";
 import { getTweet } from "./utils/apiUtils";
 import { Md } from "./Md";
 
-// const useDebounce = <T,>(value: T, delay: number): T => {
-//   const [debouncedValue, setDebouncedValue] = useState(value);
-//
-//   useEffect(() => {
-//     const handler = setTimeout(() => setDebouncedValue(value), delay);
-//     return () => clearTimeout(handler);
-//   }, [value, delay]);
-//
-//   return debouncedValue;
-// }
-
-// const debounce = (fn: Function, delay: number) => {
-//   let timer: number;
-//   return (...args: any[]) => {
-//     clearTimeout(timer);
-//     timer = setTimeout(() => fn(...args), delay);
-//   };
-// };
-
 const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [idValue, setIdValue] = useState("");
@@ -43,10 +24,6 @@ const App = () => {
   }
 
   const validateInput = useRef(
-    // debounce((input: string) => {
-    //   const match = input.match(/\b\d{17,20}\b/);
-    //   setIsValid(!!match);
-    // }, 500)
     (input: string) => {
       const id = idFromUrl(input);
       setIsValid(!!id);
