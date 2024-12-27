@@ -11,23 +11,28 @@ interface MdProps {
 
 const theme = EditorView.theme({
   "&": {
-    color: "white",
-    backgroundColor: "#034"
+    color: "#fff",
+    backgroundColor: "#000"
   },
   ".cm-content": {
-    caretColor: "#0e9"
+    caretColor: "#fff"
   },
   "&.cm-focused .cm-cursor": {
-    borderLeftColor: "#0e9"
+    borderLeftColor: "#fff"
   },
   "&.cm-focused .cm-selectionBackground, ::selection": {
-    backgroundColor: "#074"
+    backgroundColor: "#111"
   },
   ".cm-gutters": {
-    backgroundColor: "#045",
+    backgroundColor: "#111",
     color: "#ddd",
     border: "none"
-  }
+  },
+  ".cm-activeLineGutter": {
+    backgroundColor: "#0a0a0a",
+    color: "#ddd",
+    border: "none"
+  },
 }, { dark: true });
 
 const tweetToMd = (t: Tweet): string => {
@@ -111,7 +116,6 @@ export const Md = (props: MdProps) => {
             diffMarkdown: value,
             viewMode: 'rich-text',
             codeMirrorExtensions: [theme],
-
           }),
           markdownShortcutPlugin(),
         ]}
