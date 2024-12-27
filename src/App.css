@@ -552,3 +552,14 @@ label input {
   font-family: "JetBrains Mono", monospace !important;
   /* font-size: 16px; */
 }
+
+@media screen and (max-width: 700px) {
+  .md-container {
+    min-height: 100%;
+    max-height: 100%;
+  }
+
+  .md-editor>.mdxeditor-toolbar>.left {
+    margin-right: 3rem !important;
+  }
+}
