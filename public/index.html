@@ -12,31 +12,21 @@
 </head>
 
 <body>
-    <div class="main">
-        <div class="input-container">
-            <input 
-                id="id-input" 
-                name="id" 
-                type="text"
-                placeholder="Enter ID or URL"
-                hx-post="/id/input" 
-                hx-trigger="keyup delay:200ms"
-                hx-target="#submit-button"
-                hx-swap="outerHTML"
-            />
-            {{template "submit_button" .}}
-        </div>
-
-        {{template "editor_preview" .}}
+    <div class="input-submit">
+        <input id="id-input" name="id" type="text" placeholder="Enter ID or URL" hx-post="/id/input"
+            hx-trigger="keyup delay:200ms" hx-target="#submit-button" hx-swap="outerHTML" />
+        {{template "submit_button" .}}
     </div>
+
+    {{template "editor_preview" .}}
 </body>
 
 </html>
 {{end}}
 
 {{define "submit_button"}}
-<button id="submit-button" hx-post="/editor/submit" hx-include="[name='id']" hx-trigger="click" hx-target="#editor-preview"
-    hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
+<button id="submit-button" hx-post="/editor/submit" hx-include="#id-input" hx-trigger="click"
+    hx-target="#editor-preview" hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
     {{if .valid}}VALID{{else}}INVALID{{end}}
 </button>
 {{end}}
