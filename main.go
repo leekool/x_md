@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -62,11 +63,29 @@ func main() {
 			return err
 		}
 
-		fmt.Println("/x/markdown body")
-		fmt.Println(string(body) + "\n")
+		parts := strings.SplitN(string(body), "=", 2)
+		value := parts[1]
+
+		xJson, err := x.FetchX(value)
+		if err != nil {
+			return err
+		}
+
+		x, err := x.ParseCdnJson(xJson)
+		if err != nil {
+			return err
+		}
+
+		jsonData, err := json.Marshal(x)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("/x/markdown")
+		fmt.Printf("JSON: %+v\n", string(jsonData))
 
 		res := map[string]interface{}{
-			"ParsedMarkdown": string(body),
+			"ParsedMarkdown": string(jsonData),
 		}
 
 		return c.Render(http.StatusOK, "x", res)
