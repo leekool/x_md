@@ -6,7 +6,7 @@
 {{end}}
 
 {{define "editor"}}
-<textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/input" hx-trigger="keyup delay:500ms"
+<textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/input" hx-trigger="keyup delay:200ms"
     hx-target="#preview" hx-swap="outerHTML" type="text" name="content">
     {{- .ParsedX -}}
 </textarea>

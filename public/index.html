@@ -19,7 +19,7 @@
                 name="id" 
                 type="text"
                 placeholder="Enter ID or URL"
-                hx-post="/x/input" 
+                hx-post="/id/input" 
                 hx-trigger="keyup delay:200ms"
                 hx-target="#submit-button"
                 hx-swap="outerHTML"
@@ -27,14 +27,7 @@
             {{template "submit_button" .}}
         </div>
 
-        <!-- <div class="editor-preview"> -->
-            <!-- <div class="flex flex-row w-full"> -->
-            <!-- <textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/render" hx-trigger="keyup delay:500ms" -->
-            <!--     hx-target="#preview" hx-swap="innerHTML" type="text" name="content"></textarea> -->
-            <!-- <div id="preview" class="flex-1 bg-stone-50 p-6 min-h-96"> -->
-            <!-- </div> -->
-        <!-- </div> -->
-            {{template "editor_preview" .}}
+        {{template "editor_preview" .}}
     </div>
 </body>
 

@@ -25,7 +25,7 @@ type Tweet struct {
 	CreateDate  string   `json:"createDate"`
 	Text        string   `json:"text"`
 	Media       *[]Media `json:"media,omitempty"`
-	// Quote       *Tweet  `json:"quote"`
+	Quote       *Tweet   `json:"quote,omitempty"`
 }
 
 func FetchX(input string) (map[string]interface{}, error) {
@@ -97,6 +97,13 @@ date: "%s"
 		}
 	}
 
+	if t.Quote != nil {
+		quoteMd := ParseJsonMarkdown(*t.Quote)
+		quoteMd = "\n" + strings.ReplaceAll(quoteMd, "\n", "\n>")
+		quoteMd = strings.ReplaceAll(quoteMd, "\n>---", "") // todo: handle frontmatter
+		md += quoteMd
+	}
+
 	return md
 }
 
@@ -132,9 +139,7 @@ func ParseCdnJson(json map[string]interface{}) (*Tweet, error) {
 	}
 
 	media, err := getMedia(json)
-	if err != nil {
-		// fmt.Printf("getMedia %s", err)
-	}
+	quote, err := getQuote(json)
 
 	return &Tweet{
 		UserName:    userName,
@@ -143,7 +148,22 @@ func ParseCdnJson(json map[string]interface{}) (*Tweet, error) {
 		CreateDate:  createDate,
 		Text:        text,
 		Media:       media,
+		Quote:       quote,
 	}, nil
+}
+
+func getQuote(json map[string]interface{}) (*Tweet, error) {
+	q, ok := json["quoted_tweet"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("missing or invalid 'quoted_tweet' object")
+	}
+
+	quote, err := ParseCdnJson(q)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse quote: %w", err)
+	}
+
+	return quote, nil
 }
 
 func getMedia(json map[string]interface{}) (*[]Media, error) {

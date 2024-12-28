@@ -149,7 +149,8 @@ sub {
 }
 
 blockquote {
-    font-style: italic;
+    /* font-style: italic; */
+    font-style: normal !important;
     font-weight: 500;
     border-left: 0.25rem solid #e5e7eb;
     color: #e5e7eb;
@@ -157,7 +158,12 @@ blockquote {
     /* color: #9198a1; */
     padding-left: 1em;
     margin: 0 0 1.6em 0;
-    quotes: "\201C" "\201D" "\2018" "\2019";
+    quotes: "\201C" "\201D" "\2018" "\2019" !important;
+}
+
+blockquote > p::before,
+blockquote > p::before {
+    content: "" !important;
 }
 
 /* table { */

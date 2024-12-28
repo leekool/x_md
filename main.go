@@ -36,7 +36,7 @@ func main() {
 		return c.Render(http.StatusOK, "index", nil)
 	})
 
-	e.POST("/x/input", func(c echo.Context) error {
+	e.POST("/id/input", func(c echo.Context) error {
 		body, err := io.ReadAll(c.Request().Body)
 		if err != nil {
 			return err
