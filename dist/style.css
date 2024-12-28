@@ -496,7 +496,7 @@ label input {
 }
 
 /* ----- */
-.editor-preview,
+#editor-preview,
 .md-container {
     display: flex;
     width: 100%;

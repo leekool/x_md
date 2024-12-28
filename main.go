@@ -58,10 +58,10 @@ func main() {
 		return c.Render(http.StatusOK, "submit_button", res)
 	})
 
-	e.POST("/x/markdown", func(c echo.Context) error {
+	e.POST("/editor/submit", func(c echo.Context) error {
 		body, err := io.ReadAll(c.Request().Body)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to read body: %w", err)
 		}
 
 		parts := strings.SplitN(string(body), "=", 2)
@@ -69,42 +69,48 @@ func main() {
 
 		tweetCdn, err := x.FetchX(value)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to fetch tweet: %w", err)
 		}
 
 		tweet, err := x.ParseCdnJson(tweetCdn)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to parse tweet JSON to MD: %w", err)
 		}
 
-		tweetMd := x.ParseJsonMarkdown(*tweet)
+		tweetMd := strings.TrimSpace(x.ParseJsonMarkdown(*tweet))
+
+		tweetHtml, err := markd.ParseMD(tweetMd)
+		if err != nil {
+			return fmt.Errorf("failed to parse tweet MD to HTML: %w", err)
+		}
 
 		res := map[string]interface{}{
-			"ParsedMarkdown": strings.TrimSpace(tweetMd),
+			"ParsedX": tweetMd,
+			"ParsedInput": tweetHtml,
 		}
 
-		return c.Render(http.StatusOK, "x", res)
+		return c.Render(http.StatusOK, "editor_preview", res)
 	})
 
-	e.POST("/editor/render", func(c echo.Context) error {
+	e.POST("/editor/input", func(c echo.Context) error {
 		var payload RenderRequest
 
 		err := c.Bind(&payload)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to read body: %w", err)
 		}
 
 		fmt.Print(payload.Content)
 
 		parsed, err := markd.ParseMD(payload.Content)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to parse body: %w", err)
 		}
 
 		res := map[string]interface{}{
-			"ParsedMarkdown": parsed,
+			"ParsedInput": parsed,
 		}
-		return c.Render(http.StatusOK, "markdown", res)
+		return c.Render(http.StatusOK, "preview", res)
 	})
 
 	e.Logger.Fatal(e.Start(":4040"))
