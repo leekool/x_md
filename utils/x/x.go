@@ -90,7 +90,8 @@ date: "%s"
 
 	if t.Media != nil && len(*t.Media) > 0 {
 		for _, m := range *t.Media {
-			md += fmt.Sprintf("\n<img alt=\"%s\" src=\"data:image/%s;base64,%s\" />", m.URL, m.FileType, m.Base64)
+			// md += fmt.Sprintf("\n<img alt=\"%s\" src=\"data:image/%s;base64,%s\" />", m.URL, m.FileType, m.Base64)
+			md += fmt.Sprintf("\n![%s](data:image/%s;base64,%s)", m.URL, m.FileType, m.Base64)
 		}
 	}
 
@@ -175,6 +176,9 @@ func getMedia(json map[string]interface{}) (*[]Media, error) {
 		}
 
 		fileType := url[charIndex+1:]
+		if fileType == "jpg" {
+			fileType = "jpeg"
+		}
 
 		base64, err := fetchMediaBase64(url)
 		if err != nil {
