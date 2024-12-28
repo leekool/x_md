@@ -82,9 +82,11 @@ func ValidateId(input string) (string, error) {
 
 func ParseJsonMarkdown(t Tweet) string {
 	md := fmt.Sprintf(`
+---
 author: "%s"
 handle: "%s"
 date: "%s"
+---
 
 %s`, t.UserName, t.DisplayName, t.CreateDate, t.Text)
 

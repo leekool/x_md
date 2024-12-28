@@ -18,7 +18,7 @@
     font-weight: var(--font-weight-normal);
     font-style: normal;
     font-variant-numeric: tabular-nums lining-nums;
-    font-size: 16px;
+    /* font-size: 16px; */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -584,4 +584,65 @@ label input {
     .md-editor>.mdxeditor-toolbar>.left {
         margin-right: 3rem !important;
     }
+}
+
+/* frontmatter */
+div#preview>div>table:first-of-type {
+    border-collapse: collapse;
+    /* border: 1px solid #ddd; */
+    display: -ms-grid;
+    -ms-grid-rows: auto auto;
+    -ms-grid-columns: auto auto;
+    display: grid;
+    /* font-family: freight-sans-pro, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif; */
+    grid-template-columns: min-content min-content;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "caption caption"
+        "head body";
+    font-size: 1rem !important;
+    margin-bottom: 0 !important;
+    line-height: 1.2rem !important;
+}
+
+div#preview>div>table:first-of-type thead {
+    grid-area: head;
+    display: flex;
+    flex-shrink: 0;
+    min-width: min-content;
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+    text-align: left;
+    margin-right: 1em;
+    border: none !important;
+}
+
+div#preview>div>table:first-of-type tbody {
+    grid-area: body;
+    display: flex;
+    -ms-grid-row: 2;
+    -ms-grid-column: 2;
+}
+
+div#preview>div>table:first-of-type thead tr,
+div#preview>div>table:first-of-type tbody tr {
+    display: flex;
+    flex-direction: column;
+    min-width: min-content;
+    flex-shrink: 0;
+}
+
+div#preview>div>table:first-of-type td,
+div#preview>div>table:first-of-type th {
+    display: block;
+    /* padding: 0.25rem; */
+    padding: 0.25rem 0.25rem 0.25rem 0;
+}
+
+div#preview>div>table:first-of-type caption {
+    display: block;
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: caption;
 }
