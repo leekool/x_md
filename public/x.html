@@ -1,6 +1,6 @@
 {{define "x"}}
 <textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/render" hx-trigger="keyup delay:500ms"
     hx-target="#preview" hx-swap="innerHTML" type="text" name="content">
-    {{.ParsedMarkdown}}
+    {{- .ParsedMarkdown -}}
 </textarea>
 {{end}}

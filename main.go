@@ -1,7 +1,8 @@
 package main
 
 import (
-	"encoding/json"
+	// "encoding/json"
+	// "fmt"
 	"fmt"
 	"io"
 	"net/http"
@@ -66,26 +67,20 @@ func main() {
 		parts := strings.SplitN(string(body), "=", 2)
 		value := parts[1]
 
-		xJson, err := x.FetchX(value)
+		tweetCdn, err := x.FetchX(value)
 		if err != nil {
 			return err
 		}
 
-		x, err := x.ParseCdnJson(xJson)
+		tweet, err := x.ParseCdnJson(tweetCdn)
 		if err != nil {
 			return err
 		}
 
-		jsonData, err := json.Marshal(x)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println("/x/markdown")
-		fmt.Printf("JSON: %+v\n", string(jsonData))
+		tweetMd := x.ParseJsonMarkdown(*tweet)
 
 		res := map[string]interface{}{
-			"ParsedMarkdown": string(jsonData),
+			"ParsedMarkdown": strings.TrimSpace(tweetMd),
 		}
 
 		return c.Render(http.StatusOK, "x", res)
@@ -98,6 +93,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		fmt.Print(payload.Content)
 
 		parsed, err := markd.ParseMD(payload.Content)
 		if err != nil {

@@ -80,9 +80,22 @@ func ValidateId(input string) (string, error) {
 	return match[2], nil
 }
 
-// func ParseJsonMarkdown(x Tweet) (string, error) {
-//
-// }
+func ParseJsonMarkdown(t Tweet) string {
+	md := fmt.Sprintf(`
+author: "%s"
+handle: "%s"
+date: "%s"
+
+%s`, t.UserName, t.DisplayName, t.CreateDate, t.Text)
+
+	if t.Media != nil && len(*t.Media) > 0 {
+		for _, m := range *t.Media {
+			md += fmt.Sprintf("\n<img alt=\"%s\" src=\"data:image/%s;base64,%s\" />", m.URL, m.FileType, m.Base64)
+		}
+	}
+
+	return md
+}
 
 func ParseCdnJson(json map[string]interface{}) (*Tweet, error) {
 	userData, ok := json["user"].(map[string]interface{})
@@ -117,7 +130,7 @@ func ParseCdnJson(json map[string]interface{}) (*Tweet, error) {
 
 	media, err := getMedia(json)
 	if err != nil {
-		fmt.Printf("getMedia %s", err)
+		// fmt.Printf("getMedia %s", err)
 	}
 
 	return &Tweet{
@@ -138,7 +151,7 @@ func getMedia(json map[string]interface{}) (*[]Media, error) {
 
 	var buf []Media
 
-	for _, item := range media{
+	for _, item := range media {
 		m, ok := item.(map[string]interface{})
 		if !ok {
 			fmt.Print("invalid 'mediaDetails' entry")
@@ -168,10 +181,10 @@ func getMedia(json map[string]interface{}) (*[]Media, error) {
 			fmt.Printf("failed to fetch media: %s", err)
 			continue
 		}
-		
+
 		buf = append(buf, Media{
-			URL: url,
-			Base64: base64,
+			URL:      url,
+			Base64:   base64,
 			FileType: fileType,
 		})
 	}
@@ -224,49 +237,6 @@ func getKey[T any](data map[string]interface{}, key string) (T, error) {
 	return typedValue, nil
 }
 
-// fn getMedia(tweet: *Tweet, x_tweet: std.json.Value, dom: *Dom, a: std.mem.Allocator) !void {
-//     const media_details = x_tweet.object.get("mediaDetails");
-//     if (media_details == null) return;
-//
-//     const media_arr = media_details.?.array;
-//     if (media_arr.items.len == 0) return;
-//
-//     var buf = std.ArrayList(Media).init(a);
-//     defer buf.deinit();
-//
-//     for (media_arr.items) |m| {
-//         var url = m.object.get("media_url_https").?.string;
-//         if (std.mem.indexOf(u8, url, "https") != null) {
-//             const http = url[0..4];
-//             const url_end = url[5..];
-//             url = try std.mem.concat(a, u8, &[_][]const u8{ http, url_end });
-//         }
-//
-//         try dom.getUrl(url);
-//
-//         // process result
-//         const encoder = std.base64.standard.Encoder;
-//         const base64 = try a.alloc(u8, encoder.calcSize(dom.html.?.len));
-//         _ = encoder.encode(base64, dom.html.?);
-//
-//         var char_i = url.len;
-//         while (char_i > 0) { // find last '.'
-//             char_i -= 1;
-//             if (url[char_i] == '.') break;
-//         }
-//
-//         const file_type = url[char_i + 1 ..];
-//
-//         try buf.append(Tweet.Media{
-//             .url = url,
-//             .base64 = base64,
-//             .fileType = file_type,
-//         });
-//     }
-//
-//     tweet.media = try buf.toOwnedSlice();
-// }
-//
 // fn getQuote(tweet: *Tweet, x_tweet: std.json.Value, a: std.mem.Allocator) !void {
 //     const quote_obj = x_tweet.object.get("quoted_tweet");
 //     if (quote_obj == null) return;
