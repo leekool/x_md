@@ -1,0 +1,41 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/dist/tailwind.css" />
+    <link rel="stylesheet" href="/dist/style.css" />
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <title>Hello, World!</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="input-container">
+            <input 
+                id="id-input" 
+                name="id" 
+                type="text"
+                placeholder="Enter ID or URL"
+                hx-post="/x/input" 
+                hx-trigger="keyup delay:200ms"
+                hx-target="#submit-button"
+                hx-swap="outerHTML"
+            />
+            {{template "submit_button" .}}
+        </div>
+
+        <div class="editor-preview">
+            <!-- <div class="flex flex-row w-full"> -->
+            <textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/render" hx-trigger="keyup delay:500ms"
+                hx-target="#preview" hx-swap="innerHTML" type="text" name="content"></textarea>
+            <div id="preview" class="flex-1 bg-stone-50 p-6 min-h-96">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{{end}}

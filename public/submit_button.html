@@ -1,0 +1,6 @@
+{{define "submit_button"}}
+<button id="submit-button" hx-post="/x/markdown" hx-include="[name='id']" hx-trigger="click" hx-target="#editor"
+    hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
+    {{if .valid}}VALID{{else}}INVALID{{end}}
+</button>
+{{end}}
