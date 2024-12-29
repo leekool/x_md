@@ -12,7 +12,6 @@ import (
 	"github.com/leekool/x_md/template"
 	"github.com/leekool/x_md/utils/markd"
 	"github.com/leekool/x_md/utils/x"
-	// "github.com/leekool/x_md/utils/x"
 )
 
 type RenderRequest struct {
