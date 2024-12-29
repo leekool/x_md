@@ -355,7 +355,7 @@ textarea {
 
 #preview,
 textarea {
-    padding: calc(var(--line-height) / 2 - var(--border-thickness)) calc(1ch - var(--border-thickness));
+    padding: calc(var(--line-height) / 2 - var(--border-thickness)) calc(1ch - var(--border-thickness)) !important;
     line-height: normal;
     border: none !important;
 }
@@ -519,7 +519,8 @@ label input {
 #editor {
     /* height: 100%; */
     min-height: 100%;
-    width: 50%;
+    width: 100%;
+    max-width: 100% !important;
 }
 
 /* todo */
@@ -545,7 +546,12 @@ label input {
 }
 
 #toolbar {
+    display: flex;
     width: 100%;
+}
+
+#view-button {
+    margin-left: auto;
 }
 
 /* frontmatter */

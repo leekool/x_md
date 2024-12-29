@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/dist/tailwind.css" />
     <link rel="stylesheet" href="/dist/style.css" />
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
     <title>x_md</title>
 </head>
 
@@ -16,8 +17,23 @@
     {{template "input_submit" .}}
 
     <div id="toolbar">
-        test
+
+        <!-- <button id="view-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor"}'> -->
+        <button id="view-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor"}'
+            hx-target="#editor-preview" hx-swap="outerHTML">
+            edit
+        </button>
+        <button id="view-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "preview"}'
+            hx-target="#editor-preview" hx-swap="outerHTML">
+            preview
+        </button>
+        <button id="view-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor-preview"}'
+            hx-target="#editor-preview" hx-swap="outerHTML">
+            side by side
+        </button>
+
     </div>
+
     {{template "editor_preview" .}}
 </body>
 
@@ -27,7 +43,8 @@
 {{define "input_submit"}}
 <div class="input-submit">
     <input id="id-input" name="id" type="text" placeholder="Enter ID or URL" hx-post="/id/input"
-        hx-trigger="keyup delay:200ms" hx-target="#submit-button" hx-swap="outerHTML" />
+        hx-trigger="keyup[target.value.length >= 16] changed delay:200ms" hx-target="#submit-button"
+        hx-swap="outerHTML" />
     {{template "submit_button" .}}
 </div>
 {{end}}

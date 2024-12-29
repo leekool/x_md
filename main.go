@@ -4,17 +4,18 @@ import (
 	// "encoding/json"
 	// "fmt"
 	"fmt"
+	"html/template"
 	"io"
 	"net/http"
 	"strings"
 
 	"github.com/labstack/echo/v4"
-	"github.com/leekool/x_md/template"
+	t "github.com/leekool/x_md/template"
 	"github.com/leekool/x_md/utils/markd"
 	"github.com/leekool/x_md/utils/x"
 )
 
-type RenderRequest struct {
+type EditorInputRequest struct {
 	Content string `json:"content" form:"content"`
 }
 
@@ -29,7 +30,11 @@ func main() {
 
 	e.Static("/dist", "dist")
 
-	template.NewTemplateRenderer(e, "public/*.html")
+	t.NewTemplateRenderer(e, "public/*.html")
+
+	view := "preview"
+	var md string
+	var html template.HTML
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "index", nil)
@@ -77,22 +82,38 @@ func main() {
 		}
 
 		tweetMd := strings.TrimSpace(x.ParseJsonMarkdown(*tweet))
+		md = tweetMd
 
 		tweetHtml, err := markd.ParseMD(tweetMd)
 		if err != nil {
 			return fmt.Errorf("failed to parse tweet MD to HTML: %w", err)
 		}
+		html = tweetHtml
+
+		fmt.Println(view)
 
 		res := map[string]interface{}{
-			"ParsedX": tweetMd,
-			"ParsedInput": tweetHtml,
+			"ParsedX":     md,
+			"ParsedInput": html,
+			"View":        view,
 		}
 
 		return c.Render(http.StatusOK, "editor_preview", res)
 	})
 
+	// e.POST("/editor/input", func(c echo.Context) error {
+	// 	body, err := io.ReadAll(c.Request().Body)
+	// 	if err != nil {
+	// 		return fmt.Errorf("failed to read body: %w", err)
+	// 	}
+	//
+	// 	fmt.Println(string(body))
+	//
+	// 	return c.Render(http.StatusOK, "", nil)
+	// })
+
 	e.POST("/editor/input", func(c echo.Context) error {
-		var payload RenderRequest
+		var payload EditorInputRequest
 
 		err := c.Bind(&payload)
 		if err != nil {
@@ -100,16 +121,37 @@ func main() {
 		}
 
 		fmt.Print(payload.Content)
+		md = payload.Content
 
-		parsed, err := markd.ParseMD(payload.Content)
+		parsedHtml, err := markd.ParseMD(payload.Content)
 		if err != nil {
 			return fmt.Errorf("failed to parse body: %w", err)
 		}
+		html = parsedHtml
 
 		res := map[string]interface{}{
-			"ParsedInput": parsed,
+			"ParsedInput": html,
 		}
 		return c.Render(http.StatusOK, "preview", res)
+	})
+
+	e.POST("/editor/view", func(c echo.Context) error {
+		body, err := io.ReadAll(c.Request().Body)
+		if err != nil {
+			return fmt.Errorf("failed to read body: %w", err)
+		}
+
+		parts := strings.SplitN(string(body), "=", 2)
+		value := parts[1]
+		view = value
+
+		res := map[string]interface{}{
+			"ParsedX":     md,
+			"ParsedInput": html,
+			"View":        view,
+		}
+
+		return c.Render(http.StatusOK, "editor_preview", res)
 	})
 
 	e.Logger.Fatal(e.Start(":4040"))

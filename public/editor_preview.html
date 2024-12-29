@@ -1,19 +1,37 @@
 {{define "editor_preview"}}
 <div id="editor-preview">
+    {{if eq .View "preview"}}
+    {{template "preview" .}}
+    {{else if eq .View "editor"}}
+    {{template "editor" .}}
+    {{else}}
     {{template "editor" .}}
     {{template "preview" .}}
+    {{end}}
 </div>
 {{end}}
 
 {{define "editor"}}
-<textarea id="editor" class="flex-1 p-6 min-h-96" hx-post="/editor/input" hx-trigger="keyup delay:200ms"
-    hx-target="#preview" hx-swap="outerHTML" type="text" name="content">
+<textarea 
+    id="editor" 
+    name="content" 
+    type="text" 
+    hx-post="/editor/input" 
+    hx-trigger="keyup delay:200ms"
+    {{if not (eq .View "editor")}}
+        hx-target="#preview" 
+        hx-swap="outerHTML"
+    {{end}}
+>
     {{- .ParsedX -}}
 </textarea>
 {{end}}
 
 {{define "preview"}}
-<div id="preview" class="prose prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg">
+<div 
+    id="preview" 
+    class="prose prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg dark:!prose-invert"
+>
     {{- .ParsedInput -}}
 </div>
 {{end}}
