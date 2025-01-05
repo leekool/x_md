@@ -1059,18 +1059,6 @@ video {
   margin-bottom: 0;
 }
 
-.min-h-96 {
-  min-height: 24rem;
-}
-
-.flex-1 {
-  flex: 1 1 0%;
-}
-
-.p-6 {
-  padding: 1.5rem;
-}
-
 @tailwind prose;
 
 @media (prefers-color-scheme: dark) {
