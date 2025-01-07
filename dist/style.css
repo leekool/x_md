@@ -562,6 +562,10 @@ label input {
     border: none !important;
 }
 
+.icon-button:hover {
+    background: transparent;
+}
+
 .has-tooltip {
     position: relative;
 }

@@ -17,22 +17,21 @@
     {{template "input_submit" .}}
 
     <div id="toolbar">
-        <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor"}'
-            hx-target="#editor-preview" hx-swap="outerHTML">
-            {{template "icon" "editor"}}
-            <span class="tooltip">source</span>
-        </button>
         <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "preview"}'
             hx-target="#editor-preview" hx-swap="outerHTML">
             {{template "icon" "preview"}}
             <span class="tooltip">preview</span>
+        </button>
+        <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor"}'
+            hx-target="#editor-preview" hx-swap="outerHTML">
+            {{template "icon" "editor"}}
+            <span class="tooltip">source</span>
         </button>
         <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor-preview"}'
             hx-target="#editor-preview" hx-swap="outerHTML">
             {{template "icon" "split"}}
             <span class="tooltip">split view</span>
         </button>
-
     </div>
 
     {{template "editor_preview" .}}
