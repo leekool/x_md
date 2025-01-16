@@ -1,57 +1,99 @@
 {{define "index"}}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/x-icon" href="/dist/favicon.ico" />
+        <link rel="stylesheet" href="/dist/tailwind.css" />
+        <link rel="stylesheet" href="/dist/style.css" />
+        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+        <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+        <title>x_md</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/dist/favicon.ico" />
-    <link rel="stylesheet" href="/dist/tailwind.css" />
-    <link rel="stylesheet" href="/dist/style.css" />
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
-    <title>x_md</title>
-</head>
+    <body>
+        {{template "input_submit" .}}
 
-<body>
-    {{template "input_submit" .}}
+        <div id="toolbar">
+            <button
+                id="view-button"
+                class="has-tooltip icon-button"
+                hx-post="/editor/view"
+                hx-trigger="click"
+                hx-vals='{"view": "preview"}'
+                hx-target="#editor-preview"
+                hx-swap="outerHTML"
+            >
+                {{template "icon" "preview"}}
+                <span class="tooltip">preview</span>
+            </button>
+            <button
+                id="view-button"
+                class="has-tooltip icon-button"
+                hx-post="/editor/view"
+                hx-trigger="click"
+                hx-vals='{"view": "editor"}'
+                hx-target="#editor-preview"
+                hx-swap="outerHTML"
+            >
+                {{template "icon" "editor"}}
+                <span class="tooltip">source</span>
+            </button>
+            <button
+                id="view-button"
+                class="has-tooltip icon-button"
+                hx-post="/editor/view"
+                hx-trigger="click"
+                hx-vals='{"view": "editor-preview"}'
+                hx-target="#editor-preview"
+                hx-swap="outerHTML"
+            >
+                {{template "icon" "split"}}
+                <span class="tooltip">split view</span>
+            </button>
+        </div>
 
-    <div id="toolbar">
-        <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "preview"}'
-            hx-target="#editor-preview" hx-swap="outerHTML">
-            {{template "icon" "preview"}}
-            <span class="tooltip">preview</span>
-        </button>
-        <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor"}'
-            hx-target="#editor-preview" hx-swap="outerHTML">
-            {{template "icon" "editor"}}
-            <span class="tooltip">source</span>
-        </button>
-        <button id="view-button" class="has-tooltip icon-button" hx-post="/editor/view" hx-trigger="click" hx-vals='{"view": "editor-preview"}'
-            hx-target="#editor-preview" hx-swap="outerHTML">
-            {{template "icon" "split"}}
-            <span class="tooltip">split view</span>
-        </button>
-    </div>
-
-    {{template "editor_preview" .}}
-</body>
-
+        {{template "editor_preview" .}}
+    </body>
 </html>
-{{end}}
-
-{{define "input_submit"}}
+{{end}} {{define "input_submit"}}
 <div class="input-submit">
-    <input id="id-input" name="id" type="text" placeholder="Enter ID or URL" hx-post="/id/input"
-        hx-trigger="keyup[target.value.length >= 16] changed delay:200ms" hx-target="#submit-button"
-        hx-swap="outerHTML" />
+    <!-- <input -->
+    <!--     id="id-input" -->
+    <!--     name="id" -->
+    <!--     type="text" -->
+    <!--     placeholder="Enter ID or URL" -->
+    <!--     hx-post="/id/input" -->
+    <!--     hx-trigger="keyup[target.value.length >= 16] changed delay:200ms" -->
+    <!--     hx-target="#submit-button" -->
+    <!--     hx-swap="outerHTML" -->
+    <!-- /> -->
+    <span
+        id="id-input"
+        contenteditable="true"
+        type="text"
+        hx-push-url="false"
+        hx-trigger="keyup[target.textContent.length >= 16] changed delay:200ms from:#id-input"
+        hx-vals="javascript: search:htmx.find('#id-input').innerHTML"
+        hx-post="/id/input"
+        hx-target="#submit-button"
+        hx-swap="outerHTML"
+    ></span>
     {{template "submit_button" .}}
 </div>
-{{end}}
-
-{{define "submit_button"}}
-<button id="submit-button" hx-post="/editor/submit" hx-include="#id-input" hx-trigger="click"
-    hx-target="#editor-preview" hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
+{{end}} {{define "submit_button"}}
+<button
+    id="submit-button"
+    hx-post="/editor/submit"
+    hx-include="#id-input"
+    hx-trigger="click"
+    hx-target="#editor-preview"
+    hx-swap="outerHTML"
+    {{if
+    not
+    .valid}}disabled{{end}}
+>
     {{if .valid}}VALID{{else}}INVALID{{end}}
 </button>
 {{end}}

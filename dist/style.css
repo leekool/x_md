@@ -551,6 +551,10 @@ label input {
     justify-content: flex-end;
 }
 
+#toolbar > .icon-button:last-of-type {
+    padding: 0.3rem 0 0.3rem 0.3rem !important;
+}
+
 #view-button {
     /* margin-left: auto; */
 }
