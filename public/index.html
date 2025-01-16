@@ -69,17 +69,21 @@
     <!--     hx-target="#submit-button" -->
     <!--     hx-swap="outerHTML" -->
     <!-- /> -->
+    <div id="input-container" onclick="document.getElementById('id-input').focus()">
     <span
         id="id-input"
         contenteditable="true"
         type="text"
         hx-push-url="false"
-        hx-trigger="keyup[target.textContent.length >= 16] changed delay:200ms from:#id-input"
+        hx-trigger="keyup[target.textContent.length >= 16] delay:200ms from:#id-input"
         hx-vals="javascript: search:htmx.find('#id-input').innerHTML"
         hx-post="/id/input"
         hx-target="#submit-button"
         hx-swap="outerHTML"
+        autofocus
     ></span>
+    <span class="caret"></span>
+    </div>
     {{template "submit_button" .}}
 </div>
 {{end}} {{define "submit_button"}}

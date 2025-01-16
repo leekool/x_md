@@ -496,8 +496,31 @@ label input {
     /* font-size: 16px; */
 }
 
-#id-input {
+#input-container {
+    height: 40.2px;
     width: calc(100% - 6rem);
+}
+
+#id-input {
+    /* width: calc(100% - 6rem); */
+    min-width: 10px;
+    height: 40.2px;
+
+    word-break: normal;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    outline: none;
+    caret-color: transparent;
+    -webkit-line-clamp: 1;
+}
+
+span.caret {
+    display: inline-block;
+    margin: 0 2px;
+    height: 14px;
+    width: 7px;
+    background-color: #efefe7;
 }
 
 /* ----- */
@@ -551,7 +574,7 @@ label input {
     justify-content: flex-end;
 }
 
-#toolbar > .icon-button:last-of-type {
+#toolbar>.icon-button:last-of-type {
     padding: 0.3rem 0 0.3rem 0.3rem !important;
 }
 
@@ -574,11 +597,11 @@ label input {
     position: relative;
 }
 
-.has-tooltip > span.tooltip {
+.has-tooltip>span.tooltip {
     display: none;
 }
 
-.has-tooltip:hover > span.tooltip {
+.has-tooltip:hover>span.tooltip {
     display: flex;
 }
 
