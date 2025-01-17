@@ -43,6 +43,9 @@
             idInput.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
+
+                    const submitButton = document.getElementById("submit-button");
+                    submitButton.click();
                 }
             });
         });
@@ -50,7 +53,9 @@
 </body>
 
 </html>
-{{end}} {{define "input_submit"}}
+{{end}}
+
+{{define "input_submit"}}
 <div class="input-submit">
     <!-- <input -->
     <!--     id="id-input" -->
@@ -71,8 +76,9 @@
     </div>
     {{template "submit_button" .}}
 </div>
-{{end}} {{define "submit_button"}}
-<!-- hx-include="#id-input" -->
+{{end}}
+
+{{define "submit_button"}}
 <button id="submit-button" hx-post="/editor/submit" hx-vals="javascript: input:htmx.find('#id-input').innerHTML"
     hx-trigger="click" hx-target="#editor-preview" hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
     {{if .valid}}VALID{{else}}INVALID{{end}}

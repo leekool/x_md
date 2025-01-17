@@ -422,14 +422,6 @@ button:hover {
     background: var(--background-color-alt);
 }
 
-#submit-button {
-    width: 6rem;
-}
-
-#submit-button:active:not(:disabled) {
-    transform: translate(2px, 2px);
-}
-
 label {
     display: block;
     width: calc(round(down, 100%, 1ch));
@@ -500,17 +492,21 @@ label input {
     display: flex;
     height: 40.2px;
     width: calc(100% - 6rem);
+    max-width: calc(100% - 6rem);
     align-items: center;
     border-bottom: var(--border-thickness) solid var(--text-color);
+    overflow: hidden;
 }
 
 #id-input {
     height: 40.2px;
+    max-height: 40.2px;
+    max-width: calc(100% - 1.5ch); /* room for caret */
     background: transparent;
-    border: none;
     outline: none;
     overflow: hidden;
-    white-space: nowrap;
+    border: none;
+    white-space: pre;
     text-overflow: ellipsis;
     caret-color: transparent;
     line-height: 40.2px;
@@ -524,6 +520,17 @@ span.caret {
     margin: 0 2px;
     background-color: var(--text-color);
 }
+
+#submit-button {
+    width: 6rem;
+    min-width: 6rem;
+    max-width: 6rem;
+}
+
+#submit-button:active:not(:disabled) {
+    transform: translate(2px, 2px);
+}
+
 
 /* ----- */
 #editor-preview {
