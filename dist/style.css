@@ -497,14 +497,18 @@ label input {
 }
 
 #input-container {
+    display: flex;
     height: 40.2px;
     width: calc(100% - 6rem);
+    align-items: center;
+    border-bottom: var(--border-thickness) solid var(--text-color);
 }
 
 #id-input {
     /* width: calc(100% - 6rem); */
-    min-width: 10px;
+    /* min-width: 10px; */
     height: 40.2px;
+    line-height: 40.2px;
 
     word-break: normal;
     overflow: hidden;
@@ -516,11 +520,11 @@ label input {
 }
 
 span.caret {
-    display: inline-block;
+    display: inline-flex;
+    height: 16px;
+    width: 8px;
     margin: 0 2px;
-    height: 14px;
-    width: 7px;
-    background-color: #efefe7;
+    background-color: var(--text-color);
 }
 
 /* ----- */

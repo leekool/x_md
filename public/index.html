@@ -87,10 +87,11 @@
     {{template "submit_button" .}}
 </div>
 {{end}} {{define "submit_button"}}
+    <!-- hx-include="#id-input" -->
 <button
     id="submit-button"
     hx-post="/editor/submit"
-    hx-include="#id-input"
+    hx-vals="javascript: input:htmx.find('#id-input').innerHTML"
     hx-trigger="click"
     hx-target="#editor-preview"
     hx-swap="outerHTML"
