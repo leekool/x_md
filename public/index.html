@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/dist/tailwind.css" />
     <link rel="stylesheet" href="/dist/style.css" />
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+    <!-- <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script> -->
     <title>x_md</title>
 </head>
 
@@ -79,8 +79,14 @@
 {{end}}
 
 {{define "submit_button"}}
-<button id="submit-button" hx-post="/editor/submit" hx-vals="javascript: input:htmx.find('#id-input').innerHTML"
-    hx-trigger="click" hx-target="#editor-preview" hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
-    {{if .valid}}VALID{{else}}INVALID{{end}}
+{{if .valid}}
+<button id="submit-button" class="icon-button" hx-post="/editor/submit"
+    hx-vals="javascript: input:htmx.find('#id-input').innerHTML" hx-trigger="click" hx-target="#editor-preview"
+    hx-swap="outerHTML" {{if not .valid}}disabled{{end}}>
+    <!-- {{if .valid}}VALID{{else}}INVALID{{end}} -->
+    {{template "icon" "arrow-right"}}
 </button>
+{{else}}
+<span id="submit-button" hidden />
+{{end}}
 {{end}}
